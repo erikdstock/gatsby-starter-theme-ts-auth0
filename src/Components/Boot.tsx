@@ -1,6 +1,6 @@
-import React from 'react'
-import { SessionCheck } from './Authentication';
+import React from "react"
+import { AuthenticationProvider } from "./Authentication"
 
 export const Boot: React.FC = ({ children }) => {
-  return <SessionCheck>{children}</SessionCheck>
+  return <AuthenticationProvider>{children}</AuthenticationProvider>
 }

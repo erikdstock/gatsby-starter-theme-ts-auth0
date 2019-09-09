@@ -9,7 +9,7 @@
     "clean": "rm -rf .cache && yarn start",
     "debug": "nodemon --exec \"node --inspect-brk --no-lazy node_modules/.bin/gatsby develop\"",
     "develop": "nodemon --exec \"gatsby develop\"",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
+    "prettier-write": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "lint": "eslint . --ext ts --ext tsx",
     "serve": "gatsby serve",
     "start": "yarn develop",
