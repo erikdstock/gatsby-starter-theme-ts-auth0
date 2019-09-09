@@ -1,2 +1,5 @@
-export * from "./SessionCheck"
-export * from "./AuthenticationProvider"
+export {
+  AuthenticationProvider,
+  AuthenticationContext,
+} from "./AuthenticationProvider"
+export { PrivateRoute, AuthenticatedRouteComponent } from "./PrivateRoute"

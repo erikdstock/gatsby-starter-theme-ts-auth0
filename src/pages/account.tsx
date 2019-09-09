@@ -5,7 +5,7 @@ import { logout } from "../utils/auth"
 import {
   AuthenticatedRouteComponent,
   PrivateRoute,
-} from "../Components/Authentication/PrivateRoute"
+} from "../Components/Authentication"
 
 const Home: AuthenticatedRouteComponent = ({ user }) => {
   return <p>Hi, {user.profile.nickname ? user.profile.nickname : "friend"}!</p>

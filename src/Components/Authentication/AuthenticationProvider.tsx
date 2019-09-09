@@ -43,7 +43,7 @@ export class AuthenticationProvider extends React.Component<
           {(authContext: UserContext) => {
             return (
               <>
-                <SessionCheck authContext={authContext}>
+                <SessionCheck userContext={authContext}>
                   {this.props.children}
                 </SessionCheck>
               </>

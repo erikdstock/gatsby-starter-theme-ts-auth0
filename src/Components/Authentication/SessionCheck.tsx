@@ -1,20 +1,19 @@
 import React from "react"
-import { silentAuth, User, HandleUser } from "../../utils/auth"
+import { User, HandleUser, silentAuth } from "../../utils/auth"
 import { UserContext } from "./AuthenticationProvider"
 import { isBrowser } from "../../utils/environment"
 
-export const SessionCheck: React.FC<{ authContext: UserContext }> = ({
-  authContext,
+export const SessionCheck: React.FC<{ userContext: UserContext }> = ({
+  userContext,
   children,
 }) => {
   const [loading, setLoading] = React.useState<boolean>(true)
 
   const handleCheckSession: HandleUser = (user: User) => {
-    authContext.setUser(user)
+    userContext.setUser(user)
     setLoading(false)
   }
 
-  // useLayoutEffect?
   React.useEffect(() => {
     if (isBrowser) {
       silentAuth(handleCheckSession)

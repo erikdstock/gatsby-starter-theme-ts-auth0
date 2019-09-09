@@ -7,7 +7,7 @@ import auth0, {
 import { navigate } from "gatsby"
 import { isBrowser } from "./environment"
 
-export type User = LoggedInUser | LoggedOutUser
+export type HandleUser = (u: User) => void
 
 const auth: WebAuth = isBrowser
   ? new auth0.WebAuth({
@@ -30,6 +30,8 @@ export const silentAuth = (cb: HandleUser) => {
   if (!isAuthenticated()) {
     return cb(AnonymousUser)
   } else {
+    // TODO: verify with auth0 if checkSession() returns same underlying
+    // type as parseHash() (it seems to)
     auth.checkSession({}, setSession(cb))
   }
 }
@@ -41,7 +43,7 @@ export const silentAuth = (cb: HandleUser) => {
  * @param callback {HandleUser} what to do with the user
  */
 export const handleAuthCallback = (callback: HandleUser) => {
-  console.warn("handleAuthCallback", { isBrowser, auth })
+  // console.warn("handleAuthCallback", { isBrowser, auth })
   if (isBrowser) {
     auth.parseHash(setSession(callback))
   }
@@ -56,7 +58,7 @@ const setSession = (cb: HandleUser): Auth0Callback<any> => (
   err,
   authResult
 ): void => {
-  console.warn("setSession", { err, authResult })
+  // console.warn("setSession", { err, authResult })
   if (err) {
     navigate("/")
     cb(AnonymousUser)
@@ -64,7 +66,7 @@ const setSession = (cb: HandleUser): Auth0Callback<any> => (
   }
 
   const user: User = userFromAuthResult(authResult)
-  console.warn("userFromAuthResult", { user })
+  // console.warn("userFromAuthResult", { user })
   if (isLoggedInUser(user)) {
     setAuthenticated(true)
     navigate("/account")
@@ -105,7 +107,7 @@ export const login = (...args: any[]) => {
     return
   }
 
-  console.warn("logging in with args: ", args)
+  console.warn("logging in with unused args: ", args)
   auth.authorize({})
 }
 
@@ -141,8 +143,6 @@ const userFromAuthResult = (authResult: Auth0DecodedHash): User => {
   }
 }
 
-export type HandleUser = (u: User) => void
-
 /**
  * Check whether the user is logged in and convert their `User` object
  * into a LoggedInUser
@@ -153,6 +153,8 @@ export type HandleUser = (u: User) => void
 export function isLoggedInUser(u: User): u is LoggedInUser {
   return typeof u.tokens.accessToken === "string"
 }
+
+export type User = LoggedInUser | LoggedOutUser
 
 interface Tokens {
   accessToken?: string
